@@ -2,252 +2,109 @@
 
 let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
-let storeSection  = document.getElementById('stores');
+let cookieSection = document.getElementById('cookie-profiles');
 
-let seattle = {
-  name: 'Seattle',
-  minCust: 23,
-  maxCust: 65,
-  avgCookieBought: 6.3,
-  customerNumber: 0, //will hold a random number of customers
-  randomNumCustomer: function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  },
+let salesTable = document.getElementById('sales-table');
 
-  getNum: function () {
-    this.customerNumber = this.randomNumCustomer (this.minCust, this.maxCust);
-    return this.customerNumber;
-  },
+const cityArray = [];
 
-  cookiePurchase: [],
-  totalCookies: 0,
+function renderAllCities() {
+  for (let i = 0; i < cityArray.length; i++) {
+    cityArray[i].render();
+  }
+}
 
-  render: function () {
+// HEADER ROW FUNCTION//
+function headerFunction() {
+  let table = document.createElement('table');
+  cookieSection.appendChild(table);
 
-    for (let i = 0; i < hours.length; i++) {
-      let cookiesBought = Math.ceil(this.avgCookieBought * this.getNum());
-      console.log(cookiesBought);
-      this.totalCookies += cookiesBought;
-      this.cookiePurchase.push(cookiesBought);
-    }
-    console.log(this.cookiePurchase);
-    console.log('TotalSales:', this.totalCookies);
+  let headRow = document.createElement('tr');
+  table.appendChild(headRow);
 
-    let storeHeading = document.createElement('h2');
-    storeHeading.innerText = this.name;
-    storeSection.appendChild(storeHeading);
+  let cell = document.createElement('th');
+  headRow.appendChild(cell);
 
-    let storeList = document.createElement('ul');
-    storeSection.appendChild(storeList);
+  for (let i = 0; i < hours.length; i++) {
+    let headCell = document.createElement('th');
+    headCell.textContent = hours[i];
+    headRow.appendChild(headCell);
+  }
 
-    for(let i = 0; i < this.cookiePurchase.length; i++){
-      let cookieItem = document.createElement('li');
-      cookieItem.textContent = `${hours[i]}: ${this.cookiePurchase[i]} cookies`;
-      storeList.appendChild(cookieItem);
-    }
-    let cookieTotal = document.createElement('li');
-    cookieTotal.textContent = `Total Sales: ${this.totalCookies}`;
-    storeList.appendChild(cookieTotal);
-  },
+  let totalHeaderCell = document.createElement('th');
+  totalHeaderCell.textContent = 'Daily Location Total';
+  headRow.appendChild(totalHeaderCell);
+}
 
+headerFunction();
+
+//FOOTER Function //
+function footerFunction() {
+  let table = document.querySelector('table');
+  let footRow = document.createElement('tr');
+  table.appendChild(footRow);
+
+  let cell = document.createElement('td');
+  cell.textContent = 'Totals';
+  footRow.appendChild(cell);
+
+  for (let i = 0; i < hours.length + 1; i++) {
+    let cell = document.createElement('td');
+    footRow.appendChild(cell);
+  }
+}
+
+// CONSTRUCTION FUNCTION//
+
+function Store(name, minCust, maxCust, avgCookie) {
+  this.name = name;
+  this.minCust = minCust;
+  this.maxCust = maxCust;
+  this.avgCookie = avgCookie;
+  this.randomCookie = [];
+  this.totalCookies = 0;
+}
+// Prototype methods //
+Store.prototype.randomGen = function(maxCust, minCust) {
+  return Math.floor(Math.random () * (maxCust - minCust + 1) + minCust);
+};
+// prototype methods //
+Store.prototype.render = function() {
+  let chRow = document.createElement('tr');
+
+  let cityName = document.createElement('td');
+  cityName.textContent = this.name;
+  chRow.appendChild(cityName);
+
+  for (let i = 0; i < hours.length; i++) {
+    let total = this.randomGen(this.maxCust, this.minCust) * this.avgCookie;
+    let cookiesSold = Math.floor(total);
+    this.randomCookie.push(cookiesSold);
+    this.totalCookies += cookiesSold;
+
+    let cookiesSoldPerHour = document.createElement('td');
+    cookiesSoldPerHour.textContent = cookiesSold;
+    chRow.appendChild(cookiesSoldPerHour);
+  }
+
+  let totalChart = document.createElement('td');
+  totalChart.textContent = this.totalCookies;
+  chRow.appendChild(totalChart);
+
+  let table = document.querySelector('table');
+  table.appendChild(chRow);
 };
 
-seattle.render(); //to invoke the code
+// EXECUTABLE //
 
-let tokyo = {
-  name: 'Tokyo',
-  minCust: 3,
-  maxCust: 24,
-  avgCookieBought: 1.2,
-  customerNumber: 0, //will hold a random number of customers
-  randomNumCustomer: function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  },
+let seattle = new Store('Seattle', 23, 65, 6.3);
+let tokyo = new Store('Tokyo', 3, 24, 1.2);
+let dubai = new Store('Dubai', 11, 38, 3.7);
+let paris = new Store('Paris', 20, 38, 2.3);
+let lima = new Store('Lima', 2, 16, 4.6);
 
-  getNum: function () {
-    this.customerNumber = this.randomNumCustomer (this.minCust, this.maxCust);
-    return this.customerNumber;
-  },
+cityArray.push(seattle, tokyo, dubai, paris, lima);
 
-  cookiePurchase: [],
-  totalCookies: 0,
+renderAllCities();
 
-  render: function () {
-
-    for (let i = 0; i < hours.length; i++) {
-      let cookiesBought = Math.ceil(this.avgCookieBought * this.getNum());
-      console.log(cookiesBought);
-      this.totalCookies += cookiesBought;
-      this.cookiePurchase.push(cookiesBought);
-    }
-    console.log(this.cookiePurchase);
-    console.log('TotalSales:', this.totalCookies);
-
-    let storeHeading = document.createElement('h2');
-    storeHeading.innerText = this.name;
-    storeSection.appendChild(storeHeading);
-
-    let storeList = document.createElement('ul');
-    storeSection.appendChild(storeList);
-
-    for(let i = 0; i < this.cookiePurchase.length; i++){
-      let cookieItem = document.createElement('li');
-      cookieItem.textContent = `${hours[i]}: ${this.cookiePurchase[i]} cookies`;
-      storeList.appendChild(cookieItem);
-    }
-    let cookieTotal = document.createElement('li');
-    cookieTotal.textContent = `Total Sales: ${this.totalCookies}`;
-    storeList.appendChild(cookieTotal);
-  },
-
-};
-
-tokyo.render();
-
-let dubai = {
-  name: 'Dubai',
-  minCust: 11,
-  maxCust: 38,
-  avgCookieBought: 3.7,
-  customerNumber: 0, //will hold a random number of customers
-  randomNumCustomer: function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  },
-
-  getNum: function () {
-    this.customerNumber = this.randomNumCustomer (this.minCust, this.maxCust);
-    return this.customerNumber;
-  },
-
-  cookiePurchase: [],
-  totalCookies: 0,
-
-  render: function () {
-
-    for (let i = 0; i < hours.length; i++) {
-      let cookiesBought = Math.ceil(this.avgCookieBought * this.getNum());
-      console.log(cookiesBought);
-      this.totalCookies += cookiesBought;
-      this.cookiePurchase.push(cookiesBought);
-    }
-    console.log(this.cookiePurchase);
-    console.log('TotalSales:', this.totalCookies);
-
-    let storeHeading = document.createElement('h2');
-    storeHeading.innerText = this.name;
-    storeSection.appendChild(storeHeading);
-
-    let storeList = document.createElement('ul');
-    storeSection.appendChild(storeList);
-
-    for(let i = 0; i < this.cookiePurchase.length; i++){
-      let cookieItem = document.createElement('li');
-      cookieItem.textContent = `${hours[i]}: ${this.cookiePurchase[i]} cookies`;
-      storeList.appendChild(cookieItem);
-    }
-    let cookieTotal = document.createElement('li');
-    cookieTotal.textContent = `Total Sales: ${this.totalCookies}`;
-    storeList.appendChild(cookieTotal);
-  },
-
-};
-
-dubai.render();
-
-let paris = {
-  name: 'Paris',
-  minCust: 20,
-  maxCust: 38,
-  avgCookieBought: 2.3,
-  customerNumber: 0, //will hold a random number of customers
-  randomNumCustomer: function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  },
-
-  getNum: function () {
-    this.customerNumber = this.randomNumCustomer (this.minCust, this.maxCust);
-    return this.customerNumber;
-  },
-
-  cookiePurchase: [],
-  totalCookies: 0,
-
-  render: function () {
-
-    for (let i = 0; i < hours.length; i++) {
-      let cookiesBought = Math.ceil(this.avgCookieBought * this.getNum());
-      console.log(cookiesBought);
-      this.totalCookies += cookiesBought;
-      this.cookiePurchase.push(cookiesBought);
-    }
-    console.log(this.cookiePurchase);
-    console.log('TotalSales:', this.totalCookies);
-
-    let storeHeading = document.createElement('h2');
-    storeHeading.innerText = this.name;
-    storeSection.appendChild(storeHeading);
-
-    let storeList = document.createElement('ul');
-    storeSection.appendChild(storeList);
-
-    for(let i = 0; i < this.cookiePurchase.length; i++){
-      let cookieItem = document.createElement('li');
-      cookieItem.textContent = `${hours[i]}: ${this.cookiePurchase[i]} cookies`;
-      storeList.appendChild(cookieItem);
-    }
-    let cookieTotal = document.createElement('li');
-    cookieTotal.textContent = `Total Sales: ${this.totalCookies}`;
-    storeList.appendChild(cookieTotal);
-  },
-
-};
-
-paris.render();
-
-let lima = {
-  name: 'Lima',
-  minCust: 2,
-  maxCust: 16,
-  avgCookieBought: 4.6,
-  customerNumber: 0, //will hold a random number of customers
-  randomNumCustomer: function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  },
-
-  getNum: function () {
-    this.customerNumber = this.randomNumCustomer (this.minCust, this.maxCust);
-    return this.customerNumber;
-  },
-
-  cookiePurchase: [],
-  totalCookies: 0,
-
-  render: function () {
-
-    for (let i = 0; i < hours.length; i++) {
-      let cookiesBought = Math.ceil(this.avgCookieBought * this.getNum());
-      console.log(cookiesBought);
-      this.totalCookies += cookiesBought;
-      this.cookiePurchase.push(cookiesBought);
-    }
-    console.log(this.cookiePurchase);
-    console.log('TotalSales:', this.totalCookies);
-
-    let storeHeading = document.createElement('h2');
-    storeHeading.innerText = this.name;
-    storeSection.appendChild(storeHeading);
-
-    let storeList = document.createElement('ul');
-    storeSection.appendChild(storeList);
-    for(let i = 0; i < this.cookiePurchase.length; i++){
-      let cookieItem = document.createElement('li');
-      cookieItem.textContent = `${hours[i]}: ${this.cookiePurchase[i]} cookies`;
-      storeList.appendChild(cookieItem);
-    }
-    let cookieTotal = document.createElement('li');
-    cookieTotal.textContent = `Total Sales: ${this.totalCookies}`;
-    storeList.appendChild(cookieTotal);
-  },
-
-};
-lima.render();
+footerFunction();
