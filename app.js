@@ -44,14 +44,31 @@ function footerFunction() {
   let footRow = document.createElement('tr');
   table.appendChild(footRow);
 
+  // created Total as a name
   let cell = document.createElement('td');
   cell.textContent = 'Totals';
   footRow.appendChild(cell);
 
-  for (let i = 0; i < hours.length + 1; i++) {
+  let totalCounter = 0;
+
+  for (let i = 0; i < hours.length; i++) {
     let cell = document.createElement('td');
+    let hourlyCounter = 0;
+
+    for (let j = 0; j < cityArray.length; j++) {
+      let city = cityArray[j];
+      hourlyCounter += city.randomCookie[i];
+    }
+
+    totalCounter += hourlyCounter;
+    cell.textContent = hourlyCounter;
     footRow.appendChild(cell);
   }
+
+  // gave as total in daily location total
+  let dailyTotal = document.createElement('td');
+  dailyTotal.textContent = totalCounter;
+  footRow.appendChild(dailyTotal);
 }
 
 // CONSTRUCTION FUNCTION//
