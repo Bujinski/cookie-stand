@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,12 +10,36 @@
   <title>Salmon Cookie</title>
   <script src="app.js" defer></script>
 </head>
+
 <body>
   <main>
-    <div style="background-color: coral"></div>
-  <h2><a href="index.html">Home</a></h2>
-  <section id="cookie-profiles"></section>
-  <table id="sales-table"></table>
+    <div style="background-color: #c58044"></div>
+    <center>
+      <h2><a href="index.html">Home</a></h2>
+    </center>
+    <section id="cookie-profiles"></section>
+    <table id="sales-table"></table>
+    <form id="store-form">
+      <fieldset>
+        <legent>Basic Information</legent>
+
+        <label for="storeName">Name: </label>
+        <input type="text" id="storeName" name="StoreName">
+
+        <label for="minCust">Minimum Number of Customers (Numbers Only): </label>
+        <input type="number" name="minCust" id="minCust">
+
+        <label for="maxCust">Maximum Number of Customers (Numbers Only): </label>
+        <input type="number" name="maxCust" id="maxCust">
+
+        <label for="avgCookieBought">Average Number of Cookies Bought From Each Customer(Numbers Only): </label>
+        <input type="number" name="avgCookieBought" id="avgCookieBought">
+
+      </fieldset>
+
+      <button type="submit">Submit</button>
+    </form>
   </main>
 </body>
+
 </html>
