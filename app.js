@@ -2,7 +2,7 @@
 
 let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
-let cookieSection = document.getElementById('cookie-profiles');
+let myForm = document.getElementById('store-form');
 
 let salesTable = document.getElementById('sales-table');
 
@@ -16,11 +16,9 @@ function renderAllCities() {
 
 // HEADER ROW FUNCTION//
 function headerFunction() {
-  let table = document.createElement('table');
-  cookieSection.appendChild(table);
 
   let headRow = document.createElement('tr');
-  table.appendChild(headRow);
+  salesTable.appendChild(headRow);
 
   let cell = document.createElement('th');
   headRow.appendChild(cell);
@@ -36,13 +34,13 @@ function headerFunction() {
   headRow.appendChild(totalHeaderCell);
 }
 
-headerFunction();
+//headerFunction();
 
 //FOOTER Function //
 function footerFunction() {
-  let table = document.querySelector('table');
+  //let table = document.querySelector('table');
   let footRow = document.createElement('tr');
-  table.appendChild(footRow);
+  salesTable.appendChild(footRow);
 
   // created Total as a name
   let cell = document.createElement('td');
@@ -108,8 +106,7 @@ Store.prototype.render = function() {
   totalChart.textContent = this.totalCookies;
   chRow.appendChild(totalChart);
 
-  let table = document.querySelector('table');
-  table.appendChild(chRow);
+  salesTable.appendChild(chRow);
 };
 
 // EXECUTABLE //
@@ -122,6 +119,38 @@ let lima = new Store('Lima', 2, 16, 4.6);
 
 cityArray.push(seattle, tokyo, dubai, paris, lima);
 
-renderAllCities();
 
+function renderArrays() {
+  for (let i = 0; i < cookieSalesArray.length; i++) {
+    cookieSalesArray[i].render();
+  }
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  let storeName = event.target.storeName.value;
+  let minCust = parseInt(event.target.minCust.value);
+  let maxCust = parseInt(event.target.maxCust.value);
+  let avgCookieBought = parseFloat(event.target.avgCookieBought.value);
+
+  let newStore = new Store(storeName, minCust, maxCust, avgCookieBought);
+
+  salesTable.deleteRow(-1);
+
+  cityArray.push(newStore);
+
+  salesTable.textContent = '';
+  headerFunction();
+  renderAllCities();
+  footerFunction();
+
+  myForm.reset();
+}
+
+myForm.addEventListener('submit', handleSubmit);
+
+// This is how we start the application and create first cookie table
+headerFunction();
+renderAllCities();
 footerFunction();

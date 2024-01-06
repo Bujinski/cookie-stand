@@ -1,5 +1,5 @@
 table {
-  background-color: coral;
+  background-color: #D97F30;
 }
 
 #pic1 {
@@ -7,13 +7,18 @@ table {
 }
 
 header {
-  background-color: grey;
+  background-color: #F2DCC2;
 }
 
 header h1 {
-  color: coral;
+  color: #D97F30;
 }
 
 header h2 {
-  color: coral;
+  color: #D97F30;
+}
+
+td, th {
+  border: 1px solid #000; /* Adjust the width and color as needed */
+  padding: 8px; /* Optional: Add padding for better spacing */
 }
